@@ -8,7 +8,7 @@
 </head>
 
 <header>
-<h1><a href="homepage.php">RepMasterAI</a></h1>
+<h1><a href="homepage.php" id="homepageLink">RepMasterAI</a></h1>
 
 <div id="login">
 <a id="loginLink" href="Login.php">Login</a>
@@ -23,11 +23,46 @@
 </header>
 
 <body>
-<div>
-<p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-</p>
-</div>
+<?php 
+$mysqli = new mysqli("localhost","root","","repmasterai");
+
+// Check connection
+if ($mysqli -> connect_errno) {
+  echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
+  exit();
+}
+
+$formHTML = "<form method='post' action='Login.php'>
+  <label for='username'> Enter Username</label><br>
+  <input type='text' id='username' name='username' required><br>
+  <label for='password'>Enter Password</label><br>
+  <input type='text' id='password' name='password' required><br>
+  <input type='submit'><br>
+  <a href='CreateLogin.php'>Don't have an account? Create it here!</a>
+</form>";
+
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$receivedUsername = $_POST['username'];
+$receivedPassword = $_POST['password'];
+
+if(isset($_POST['fromPerson'])){
+$sql = "SELECT * FROM login WHERE Username = '" . $receivedUsername . "'";
+$result = $mysqli->query($sql);
+$firstRow = $result->fetch_assoc();
+$dbPassword = $firstRow['Password'];
+if($result->num_rows > 0 && $dbPassword == $receivedPassword){
+   echo "<p>You have been succesfully logged in</p>";
+} else {
+    echo $formHTML;
+}
+}
+}
+ else {
+echo $formHTML;
+}
+?>
 </body>
 
 <footer>

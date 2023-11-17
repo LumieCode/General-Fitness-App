@@ -27,6 +27,9 @@ footer{
 #loginLink{
     font-size: 2em;
 }
+#homepageLink{
+    color: black;
+}
 
 .subheaderLinks{
   display: inline;

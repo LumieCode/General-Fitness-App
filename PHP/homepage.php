@@ -8,7 +8,7 @@
 </head>
 
 <header>
-<h1><a href="homepage.php">RepMasterAI</a></h1>
+<h1><a href="homepage.php" id="homepageLink">RepMasterAI</a></h1>
 
 <div id="login">
 <a id="loginLink" href="Login.php">Login</a>
