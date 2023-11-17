@@ -1,0 +1,44 @@
+h1 {
+    font-size: 2.7em;
+    border:0.1em solid black;
+    width: 6.3em;
+}
+
+header{
+    height: 12em;
+}
+footer{
+    width:90em;
+    border:0.1em solid black;
+    position: absolute;
+    bottom: 0;
+
+}
+#subheader{
+    border:0.07em solid black; 
+    margin: auto;
+    text-align: center;
+}
+#login{
+    position: absolute;
+   top: 1em;
+    right: 2em
+}
+#loginLink{
+    font-size: 2em;
+}
+
+.subheaderLinks{
+  display: inline;
+  padding-left: 5%;
+  padding-right: 5%;
+  font-size: 1.5em;
+  color: black;
+}
+
+.footerLinks{
+  padding-left: 4.5em;
+   display: inline-block;
+   font-size: 0.8em;
+
+}
