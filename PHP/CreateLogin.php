@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="stylesheet" href="../CSS/style.css">
     <title>Fitness app</title>
-    <script src="passswordVerify.js"></script>
+    <script src="../JS/passwordVerify.js"></script>
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+
 </head>
 <?php session_start(); ?>
 <header>
@@ -33,15 +35,18 @@ if ($mysqli -> connect_errno) {
   echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
   exit();
 }
-$formHTML = "<form method='post' action='CreateLogin.php'>
+$formHTML = "<form method='post'id='theForm' action='CreateLogin.php'>
   <label for='username'> Enter Username</label><br>
   <input type='text' id='username' name='username'><br>
   <label for='password'>Enter Password</label><br>
-  <input type='text' id='password' name='password'><br>
+  <input type='password' id='password' name='password'><br>
   <label for='repassword'>Reenter Password</label><br>
-  <input type='text' id='repassword' name='repassword'><br>
-  <input type='submit'>
-</form>";
+  <input type='password' id='repassword' name='repassword'><br>
+
+</form>
+ <button onclick='verifyPassword()'>Submit here!</button>
+<div id='msgDiv'></div>
+";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $receivedUsername = $_POST['username'];

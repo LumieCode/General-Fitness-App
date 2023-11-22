@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="stylesheet" href="../CSS/style.css">
     <title>Fitness app</title>
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+
 </head>
 <?php session_start(); ?>
 <header>
@@ -48,7 +50,7 @@ $formHTML = "<form method='post' action='Login.php'>
   <label for='username'> Enter Username</label><br>
   <input type='text' id='username' name='username' required><br>
   <label for='password'>Enter Password</label><br>
-  <input type='text' id='password' name='password' required><br>
+  <input type='password' id='password' name='password' required><br>
   <input type='submit'><br>
   <a href='CreateLogin.php'>Don't have an account? Create it here!</a>
 </form>";
