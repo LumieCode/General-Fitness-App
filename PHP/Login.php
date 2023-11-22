@@ -6,7 +6,7 @@
       <link rel="stylesheet" href="../CSS/style.css">
     <title>Fitness app</title>
 </head>
-
+<?php session_start(); ?>
 <header>
 <h1><a href="homepage.php" id="homepageLink">RepMasterAI</a></h1>
 
@@ -42,26 +42,41 @@ $formHTML = "<form method='post' action='Login.php'>
 </form>";
 
 
-
+if (!isset($_SESSION['username'])){
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-$receivedUsername = $_POST['username'];
-$receivedPassword = $_POST['password'];
+    $receivedUsername = $_POST['username'];
+    $receivedPassword = $_POST['password'];
 
-if(isset($_POST['fromPerson'])){
-$sql = "SELECT * FROM login WHERE Username = '" . $receivedUsername . "'";
-$result = $mysqli->query($sql);
-$firstRow = $result->fetch_assoc();
-$dbPassword = $firstRow['Password'];
-if($result->num_rows > 0 && $dbPassword == $receivedPassword){
-   echo "<p>You have been succesfully logged in</p>";
-} else {
+    if (isset($_POST['username'])) {
+        $sql = "SELECT * FROM login WHERE Username = '" . $receivedUsername . "'";
+        $result = $mysqli->query($sql);
+
+        if ($result->num_rows > 0) {
+            $firstRow = $result->fetch_assoc();
+            $dbPassword = $firstRow['Password'];
+
+            if (password_verify($receivedPassword, $dbPassword)) {
+                echo "<p>You have been successfully logged in</p>";
+             
+                  $_SESSION['username'] = $receivedUsername;
+            } else {
+                echo "<p>Incorrect password, try again.</p>";
+                echo $formHTML;
+            }
+        } else {
+            echo "<p>This username does not exist.</p>";
+            echo $formHTML;
+        }
+    } else {
     echo $formHTML;
 }
+} else {
+    echo $formHTML;
+}}else
+{
+    echo "You're already logged in.";
 }
-}
- else {
-echo $formHTML;
-}
+
 ?>
 </body>
 

@@ -6,7 +6,7 @@
       <link rel="stylesheet" href="../CSS/style.css">
     <title>Fitness app</title>
 </head>
-
+<?php session_start(); ?>
 <header>
 <h1><a href="homepage.php" id="homepageLink">RepMasterAI</a></h1>
 

@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="stylesheet" href="../CSS/style.css">
     <title>Fitness app</title>
+    
 </head>
-
+<?php session_start(); ?>
 <header>
 <h1><a href="homepage.php" id="homepageLink">RepMasterAI</a></h1>
 
@@ -32,15 +33,35 @@ if ($mysqli -> connect_errno) {
   echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
   exit();
 }
-echo "<form method='post' action='CreateLogin.php'>
+$formHTML = "<form method='post' action='CreateLogin.php'>
   <label for='username'> Enter Username</label><br>
   <input type='text' id='username' name='username'><br>
   <label for='password'>Enter Password</label><br>
   <input type='text' id='password' name='password'><br>
   <label for='repassword'>Reenter Password</label><br>
-  <input type='text' id='repassword' name='repassword'>
+  <input type='text' id='repassword' name='repassword'><br>
   <input type='submit'>
-</form>"
+</form>";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $receivedUsername = $_POST['username'];
+    $receivedPassword = $_POST['password'];
+    
+    if (isset($_POST['username'])) {
+        $sql = "INSERT INTO login (Username, Password)
+VALUES ('" . $receivedUsername . "', '" .  password_hash($receivedPassword, PASSWORD_DEFAULT) . "')";
+
+        $result = $mysqli->query($sql);
+echo "<p> You have successfully created an account, proceed to log in. We have not built a recover password function so please don't lose your password!</p>";
+    } else {
+    echo $formHTML;
+}
+} else {
+    echo $formHTML;
+}
+
+
+
 ?>
 </div>
 </body>
