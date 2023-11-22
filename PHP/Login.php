@@ -24,6 +24,18 @@
 
 <body>
 <?php 
+if (isset($_POST['logout'])) {
+    // Destroy the session
+    session_destroy();
+     header('Location: homepage.php');
+    exit;
+}
+$logoutHTML = "
+    <form method='post' action=''>
+        <!-- Add a button to trigger the session destruction -->
+        <button type='submit' name='logout'>Logout</button>
+    </form>";
+
 $mysqli = new mysqli("localhost","root","","repmasterai");
 
 // Check connection
@@ -57,7 +69,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if (password_verify($receivedPassword, $dbPassword)) {
                 echo "<p>You have been successfully logged in</p>";
-             
                   $_SESSION['username'] = $receivedUsername;
             } else {
                 echo "<p>Incorrect password, try again.</p>";
@@ -75,6 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }}else
 {
     echo "You're already logged in.";
+    echo $logoutHTML;
 }
 
 ?>
