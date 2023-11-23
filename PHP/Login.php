@@ -46,6 +46,14 @@ $formHTML = "
         <input type='submit'><br>
         <a href='CreateLogin.php'>Don't have an account? Create it here!</a>
     </form>";
+    if (isset($_POST['logout'])) {
+    // Destroy the session
+    session_destroy();
+
+    // Redirect to a login page or another appropriate location
+    header('Location: login.php');
+    exit;
+}
 
 if (!isset($_SESSION['username'])) {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {

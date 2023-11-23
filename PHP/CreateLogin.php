@@ -49,21 +49,33 @@ $formHTML = "
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate and sanitize user inputs
     $receivedUsername = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
-    $receivedPassword = $_POST['password'];
-
+    $receivedPassword = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
+     
     if (!empty($receivedUsername) && !empty($receivedPassword)) {
-        // Use prepared statements to prevent SQL injection
-        $stmt = $mysqli->prepare("INSERT INTO login (Username, Password) VALUES (?, ?)");
-        $hashedPassword = password_hash($receivedPassword, PASSWORD_DEFAULT);
-        $stmt->bind_param("ss", $receivedUsername, $hashedPassword);
+        // Check if the username already exists
+        $checkStmt = $mysqli->prepare("SELECT Username FROM login WHERE Username = ?");
+        $checkStmt->bind_param("s", $receivedUsername);
+        $checkStmt->execute();
+        $checkStmt->store_result();
 
-        if ($stmt->execute()) {
-            echo "<p> You have successfully created an account, proceed to log in. We have not built a recover password function so please don't lose your password!</p>";
+        if ($checkStmt->num_rows > 0) {
+            echo $formHTML;
+            echo "<p>This username is already taken. Please choose another one.</p>";
+            $checkStmt->close();
         } else {
-            echo "<p>Something went wrong. Please try again later.</p>";
-        }
+            // Use prepared statements to prevent SQL injection
+            $stmt = $mysqli->prepare("INSERT INTO login (Username, Password) VALUES (?, ?)");
+            $hashedPassword = password_hash($receivedPassword, PASSWORD_DEFAULT);
+            $stmt->bind_param("ss", $receivedUsername, $hashedPassword);
 
-        $stmt->close();
+            if ($stmt->execute()) {
+                echo "<p>You have successfully created an account, proceed to log in. We have not built a recover password function so please don't lose your password!</p>";
+            } else {
+                echo "<p>Something went wrong. Please try again later.</p>";
+            }
+
+            $stmt->close();
+        }
     } else {
         echo "<p>Please fill out both username and password fields.</p>";
     }
@@ -71,6 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo $formHTML;
 }
 ?>
+
 </div>
 </body>
 
