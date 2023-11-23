@@ -1,27 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../CSS/style.css">
-    <title>Fitness app</title>
-    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-</head>
-<header>
-<h1><a href="homepage.php" id="homepageLink">RepMasterAI</a></h1>
-
-<div id="login">
-<a id="loginLink" href="Login.php">Login</a>
-</div>
-
-<div id="subheader">
-<a class="subheaderLinks" href="ChooseFitness.php">Record fitness</a>
-<a class="subheaderLinks" href="Results.php">Results</a>
-<a class="subheaderLinks" href="Leaderboard.php">Leaderboard</a>
-<a class="subheaderLinks" href="About-us.php">About us</a>
-</div>
-</header>
-<?php
+<?php 
+include '../HTML-PHP/head.php';
+include '../HTML-PHP/header.php';
 session_start();
 
 $mysqli = new mysqli("localhost", "root", "", "repmasterai");
@@ -94,29 +73,6 @@ if (!isset($_SESSION['username'])) {
     echo "<p>You're already logged in.</p>";
     echo $logoutHTML;
 }
+
+include '../HTML-PHP/footer.php';
 ?>
-</body>
-
-<footer>
-
-
-<a class="footerLinks" href="https://github.com/shamjam" target="blank">Shamjams github</a>
-<a class="footerLinks"href="https://github.com/LumieCode"  target="blank">Nazar's github</a>
-<a class="footerLinks" href="https://blog.tensorflow.org/2021/05/next-generation-pose-detection-with-movenet-and-tensorflowjs.html"  target="blank">movenet.js</a>
-
-
-
-<a class="footerLinks" href="https://en.wikipedia.org/wiki/Articulated_body_pose_estimation"  target="blank">Pose estimation ai</a>
-<a class="footerLinks" href="https://technoscience.ca/programmes/expo-sciences/"  target="blank">Exposcience</a>
-<a class="footerLinks" href="https://www.instagram.com/lumiecode/"  target="blank">Instagram</a>
-
-
-
-<p class="footerLinks">Contact us: lumieCode@gmail.com</p>
-<p class="footerLinks">Contact us: 514 348 4989</p>
-<a class="footerLinks" href="https://www.foodintorg.com/misc"  target="blank">Other projects</a>
-
-
-</footer>
-
-</html>
