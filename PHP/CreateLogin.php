@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="../CSS/style.css">
     <title>Fitness app</title>
     <script src="../JS/passwordVerify.js"></script>
-        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
 </head>
-<?php session_start(); ?>
 <header>
 <h1><a href="homepage.php" id="homepageLink">RepMasterAI</a></h1>
 
@@ -24,49 +22,54 @@
 <a class="subheaderLinks" href="About-us.php">About us</a>
 </div>
 </header>
+<?php
+session_start();
 
-<body>
-<div>
-<?php 
-$mysqli = new mysqli("localhost","root","","repmasterai");
+$mysqli = new mysqli("localhost", "root", "", "repmasterai");
 
 // Check connection
-if ($mysqli -> connect_errno) {
-  echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
-  exit();
+if ($mysqli->connect_errno) {
+    echo "Failed to connect to MySQL: " . $mysqli->connect_error;
+    exit();
 }
-$formHTML = "<form method='post'id='theForm' action='CreateLogin.php'>
-  <label for='username'> Enter Username</label><br>
-  <input type='text' id='username' name='username'><br>
-  <label for='password'>Enter Password</label><br>
-  <input type='password' id='password' name='password'><br>
-  <label for='repassword'>Reenter Password</label><br>
-  <input type='password' id='repassword' name='repassword'><br>
 
-</form>
- <button onclick='verifyPassword()'>Submit here!</button>
-<div id='msgDiv'></div>
+$formHTML = "
+    <form method='post' id='theForm' action='CreateLogin.php'>
+        <label for='username'> Enter Username</label><br>
+        <input type='text' id='username' name='username'><br>
+        <label for='password'>Enter Password</label><br>
+        <input type='password' id='password' name='password'><br>
+        <label for='repassword'>Reenter Password</label><br>
+        <input type='password' id='repassword' name='repassword'><br>
+    </form>
+    <button onclick='verifyPassword()'>Submit here!</button>
+    <div id='msgDiv'></div>
 ";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $receivedUsername = $_POST['username'];
+    // Validate and sanitize user inputs
+    $receivedUsername = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
     $receivedPassword = $_POST['password'];
-    
-    if (isset($_POST['username'])) {
-        $sql = "INSERT INTO login (Username, Password)
-VALUES ('" . $receivedUsername . "', '" .  password_hash($receivedPassword, PASSWORD_DEFAULT) . "')";
 
-        $result = $mysqli->query($sql);
-echo "<p> You have successfully created an account, proceed to log in. We have not built a recover password function so please don't lose your password!</p>";
+    if (!empty($receivedUsername) && !empty($receivedPassword)) {
+        // Use prepared statements to prevent SQL injection
+        $stmt = $mysqli->prepare("INSERT INTO login (Username, Password) VALUES (?, ?)");
+        $hashedPassword = password_hash($receivedPassword, PASSWORD_DEFAULT);
+        $stmt->bind_param("ss", $receivedUsername, $hashedPassword);
+
+        if ($stmt->execute()) {
+            echo "<p> You have successfully created an account, proceed to log in. We have not built a recover password function so please don't lose your password!</p>";
+        } else {
+            echo "<p>Something went wrong. Please try again later.</p>";
+        }
+
+        $stmt->close();
     } else {
-    echo $formHTML;
-}
+        echo "<p>Please fill out both username and password fields.</p>";
+    }
 } else {
     echo $formHTML;
 }
-
-
-
 ?>
 </div>
 </body>

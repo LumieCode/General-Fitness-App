@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="../CSS/style.css">
     <title>Fitness app</title>
-        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
 </head>
-<?php session_start(); ?>
 <header>
 <h1><a href="homepage.php" id="homepageLink">RepMasterAI</a></h1>
 
@@ -23,74 +21,71 @@
 <a class="subheaderLinks" href="About-us.php">About us</a>
 </div>
 </header>
+<?php
+session_start();
 
-<body>
-<?php 
-if (isset($_POST['logout'])) {
-    // Destroy the session
-    session_destroy();
-     header('Location: homepage.php');
-    exit;
+$mysqli = new mysqli("localhost", "root", "", "repmasterai");
+
+// Check connection
+if ($mysqli->connect_errno) {
+    echo "Failed to connect to MySQL: " . $mysqli->connect_error;
+    exit();
 }
+
 $logoutHTML = "
     <form method='post' action=''>
-        <!-- Add a button to trigger the session destruction -->
         <button type='submit' name='logout'>Logout</button>
     </form>";
 
-$mysqli = new mysqli("localhost","root","","repmasterai");
+$formHTML = "
+    <form method='post' action='Login.php'>
+        <label for='username'> Enter Username</label><br>
+        <input type='text' id='username' name='username' required><br>
+        <label for='password'>Enter Password</label><br>
+        <input type='password' id='password' name='password' required><br>
+        <input type='submit'><br>
+        <a href='CreateLogin.php'>Don't have an account? Create it here!</a>
+    </form>";
 
-// Check connection
-if ($mysqli -> connect_errno) {
-  echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
-  exit();
-}
+if (!isset($_SESSION['username'])) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $receivedUsername = $_POST['username'];
+        $receivedPassword = $_POST['password'];
 
-$formHTML = "<form method='post' action='Login.php'>
-  <label for='username'> Enter Username</label><br>
-  <input type='text' id='username' name='username' required><br>
-  <label for='password'>Enter Password</label><br>
-  <input type='password' id='password' name='password' required><br>
-  <input type='submit'><br>
-  <a href='CreateLogin.php'>Don't have an account? Create it here!</a>
-</form>";
+        if (!empty($receivedUsername) && !empty($receivedPassword)) {
+            $stmt = $mysqli->prepare("SELECT * FROM login WHERE Username = ?");
+            $stmt->bind_param("s", $receivedUsername);
+            $stmt->execute();
+            $result = $stmt->get_result();
 
+            if ($result->num_rows > 0) {
+                $firstRow = $result->fetch_assoc();
+                $dbPassword = $firstRow['Password'];
 
-if (!isset($_SESSION['username'])){
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $receivedUsername = $_POST['username'];
-    $receivedPassword = $_POST['password'];
-
-    if (isset($_POST['username'])) {
-        $sql = "SELECT * FROM login WHERE Username = '" . $receivedUsername . "'";
-        $result = $mysqli->query($sql);
-
-        if ($result->num_rows > 0) {
-            $firstRow = $result->fetch_assoc();
-            $dbPassword = $firstRow['Password'];
-
-            if (password_verify($receivedPassword, $dbPassword)) {
-                echo "<p>You have been successfully logged in</p>";
-                  $_SESSION['username'] = $receivedUsername;
+                if (password_verify($receivedPassword, $dbPassword)) {
+                    echo "<p>You have been successfully logged in</p>";
+                    $_SESSION['username'] = $receivedUsername;
+                } else {
+                    echo "<p>Incorrect password, try again.</p>";
+                    echo $formHTML;
+                }
             } else {
-                echo "<p>Incorrect password, try again.</p>";
+                echo "<p>This username does not exist.</p>";
                 echo $formHTML;
             }
+
+            $stmt->close();
         } else {
-            echo "<p>This username does not exist.</p>";
+            echo "<p>Please fill out both username and password fields.</p>";
             echo $formHTML;
         }
     } else {
-    echo $formHTML;
-}
+        echo $formHTML;
+    }
 } else {
-    echo $formHTML;
-}}else
-{
-    echo "You're already logged in.";
+    echo "<p>You're already logged in.</p>";
     echo $logoutHTML;
 }
-
 ?>
 </body>
 
