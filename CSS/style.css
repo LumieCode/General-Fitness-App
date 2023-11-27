@@ -45,3 +45,7 @@ footer{
    font-size: 0.8em;
 
 }
+form i {
+    margin-left: -1.5em;
+    cursor: pointer;
+}

@@ -21,7 +21,8 @@ $formHTML = "
         <label for='username'> Enter Username</label><br>
         <input type='text' id='username' name='username' required><br>
         <label for='password'>Enter Password</label><br>
-        <input type='password' id='password' name='password' required><br>
+           <input type='password' id='password' name='password' required>
+      <i class='bi bi-eye-slash' id='toggle_password' onclick='showPassword(\"password\")'></i><br>
         <input type='submit'><br>
         <a href='CreateLogin.php'>Don't have an account? Create it here!</a>
     </form>";

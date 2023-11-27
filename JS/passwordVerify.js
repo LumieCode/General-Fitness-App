@@ -32,3 +32,23 @@ function verifyPassword() {
 if(AllRequirements){  document.getElementById("theForm").submit();}
 
 }
+
+function checkForExistingUsernames(){
+    $.ajax({url: "passwordExist.php",  data: {attemptedUsername: document.getElementById("username").value}, success: function(result){
+    if (result =="Username already exists. Please choose a different username."){
+        msgDiv.innerHTML = "<p>Username already exists. Please choose a different username.</p><br>";
+    }{
+        verifyPassword();
+    }
+    }});
+  }
+
+  function showPassword(passwordInput){
+    var x = document.getElementById(passwordInput);
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+    document.getElementById("toggle_" + passwordInput).classList.toggle("bi-eye");
+  }
