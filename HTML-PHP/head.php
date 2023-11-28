@@ -9,8 +9,14 @@ echo "
     <title>Fitness app</title>
     <script src='../JS/passwordVerify.js'></script>
     <script src='../JS/jquery.js'></script>
+    <script src='../JS/fitnessRecord.js' onload></script>
     <link rel='icon' type='image/x-icon' href='../images/favicon.ico'>
-        <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css' />
-
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css' />
+       <!-- Include TensorFlow.js and PoseNet scripts -->
+    <script src='https://cdn.jsdelivr.net/npm/@tensorflow/tfjs'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet'></script>
+    <script src='../JS/fitnessRecord.js'>
+      
+    </script>
 </head>";
 ?>
