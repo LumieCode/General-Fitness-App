@@ -1,7 +1,7 @@
 <?php
+session_start();
 include '../HTML-PHP/head.php';
 include '../HTML-PHP/header.php';
-session_start();
 
 $mysqli = new mysqli("localhost", "root", "", "repmasterai");
 

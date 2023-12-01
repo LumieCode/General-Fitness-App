@@ -1,8 +1,7 @@
 <?php 
+session_start();
 include '../HTML-PHP/head.php';
 include '../HTML-PHP/header.php';
-session_start();
-
 
 echo "
     <video id='video' width='640' height='480' autoplay></video>

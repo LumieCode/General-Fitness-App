@@ -2,8 +2,15 @@
 <header>
     <h1><a href='homepage.php' id='homepageLink'>RepMasterAI</a></h1>
     
-    <div id='login'>
-    <a id='loginLink' href='Login.php'>Login</a>
+    <div id='login'>";
+
+    if(isset($_SESSION['username'])){
+      echo "<a id='loginLink' href='Login.php'>Logout</a>";
+    }else{
+      echo "<a id='loginLink' href='Login.php'>Login</a>";
+    }
+
+    echo "
     </div>
     
     <div id='subheader'>
