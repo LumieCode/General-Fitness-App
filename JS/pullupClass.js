@@ -17,6 +17,7 @@ class pullup{
 
     // Method to calculate min and max values for keypoints
     feedData(keypoints) {
+
         this.rightWristY = Math.floor(keypoints[10].position.y);
         this.leftWristY = Math.floor(keypoints[9].position.y);
         this.noseY = Math.floor(keypoints[0].position.y);

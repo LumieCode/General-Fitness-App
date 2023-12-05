@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     let pullups = new pullup();
+    let pushups = new pushup();
     const videoElement = document.getElementById('video');
     const canvas = document.getElementById('output');
     const ctx = canvas.getContext('2d');
@@ -37,6 +38,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     function countRepetitions(keypoints) {
      pullups.feedData(keypoints);
      pullups.setPullUpStatus();
+     pushups.feedData(keypoints);
+     pushups.setPushupStatus();
     }
 
 
