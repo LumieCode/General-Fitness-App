@@ -21,15 +21,15 @@ class pushup {
 
     feedData(keypoints) {
 
-        this.rightWrist = keypoints[10].position;
-        this.leftWrist = keypoints[9].position;
-        this.nose = keypoints[0].position;
-        this.rightElbow = keypoints[7].position;
-        this.leftElbow = keypoints[8].position;
-        this.rightShoulder = keypoints[6].position;
-        this.leftShoulder = keypoints[5].position;
-        this.leftHip = keypoints[11].position;
-        this.leftKnee = keypoints[13].position;
+        this.rightWrist = keypoints[10];
+        this.leftWrist = keypoints[9];
+        this.nose = keypoints[0];
+        this.rightElbow = keypoints[8];
+        this.leftElbow = keypoints[7];
+        this.rightShoulder = keypoints[6];
+        this.leftShoulder = keypoints[5];
+        this.leftHip = keypoints[11];
+        this.leftKnee = keypoints[13];
 
         // Include any other keypoint calculations here
     }
@@ -37,11 +37,11 @@ class pushup {
     updateArmAngle() {
         let angle = (
             Math.atan2(
-                this.leftWrist.y - this.leftElbow.y,
-                this.leftWrist.x - this.leftElbow.x
+                this.leftWrist.position.y - this.leftElbow.position.y,
+                this.leftWrist.position.x - this.leftElbow.position.x
             ) - Math.atan2(
-                this.leftShoulder.y - this.leftElbow.y,
-                this.leftShoulder.x - this.leftElbow.x
+                this.leftShoulder.position.y - this.leftElbow.position.y,
+                this.leftShoulder.position.x - this.leftElbow.position.x
             )
         ) * (180 / Math.PI);
 
@@ -57,11 +57,11 @@ class pushup {
     updateBackAngle() {
         let angle = (
             Math.atan2(
-                this.leftKnee.y - this.leftHip.y,
-                this.leftKnee.x - this.leftHip.x
+                this.leftKnee.position.y - this.leftHip.position.y,
+                this.leftKnee.position.x - this.leftHip.position.x
             ) - Math.atan2(
-                this.leftShoulder.y - this.leftHip.y,
-                this.leftShoulder.x - this.leftHip.x
+                this.leftShoulder.position.y - this.leftHip.position.y,
+                this.leftShoulder.position.x - this.leftHip.position.x
             )
         ) * (180 / Math.PI);
 
@@ -96,11 +96,12 @@ class pushup {
 
     inDownPosition() {
         let elbowAboveNose = false;
-        if (this.nose.y > this.leftElbow.y) {
+        if (this.nose.position.y > this.leftElbow.position.y) {
             elbowAboveNose = true;
         }
-
-        if ((!this.highlightBack) && elbowAboveNose && ((Math.abs(this.elbowAngle) > 70) && (Math.abs(this.elbowAngle) < 100))) {
+        console.log(elbowAboveNose);
+        if (elbowAboveNose && ((Math.abs(this.elbowAngle) > 70) && (Math.abs(this.elbowAngle) < 100))) {
+          
             if (this.upPosition) {
                 // Optionally include a message without speech synthesis
                 console.log('Up');
@@ -108,6 +109,7 @@ class pushup {
             this.downPosition = true;
             this.upPosition = false;
         }
+       // console.log(elbowAboveNose);
     }
 
     setPushupStatus() {
@@ -115,8 +117,11 @@ class pushup {
         this.updateBackAngle();
         this.inUpPosition();
         this.inDownPosition();
-        console.log(this.backAngle);
-        console.log(this.elbowAngle);
+
+     console.log(this.elbowAngle);
+        //console.log('Up Position:', this.upPosition);
+       // console.log('Down Position:', this.downPosition);
+   
         document.getElementById("pushupCount").innerText = this.pushupCount;
     }
 }
