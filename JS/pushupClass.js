@@ -37,35 +37,35 @@ class pushup {
     updateArmAngle() {
         let angle = (
             Math.atan2(
-                this.leftWrist.position.y - this.leftElbow.position.y,
-                this.leftWrist.position.x - this.leftElbow.position.x
+                this.leftWrist.y - this.leftElbow.y,
+                this.leftWrist.x - this.leftElbow.x
             ) - Math.atan2(
-                this.leftShoulder.position.y - this.leftElbow.position.y,
-                this.leftShoulder.position.x - this.leftElbow.position.x
+                this.leftShoulder.y - this.leftElbow.y,
+                this.leftShoulder.x - this.leftElbow.x
             )
         ) * (180 / Math.PI);
 
     
-
+       
         if (this.leftWrist.score > 0.3 && this.leftElbow.score > 0.3 && this.leftShoulder.score > 0.3) {
             this.elbowAngle = angle;
         } else {
-            //console.log('Cannot see elbow');
+            console.log('Cannot see elbow');
         }
     }
 
     updateBackAngle() {
         let angle = (
             Math.atan2(
-                this.leftKnee.position.y - this.leftHip.position.y,
-                this.leftKnee.position.x - this.leftHip.position.x
+                this.leftKnee.y - this.leftHip.y,
+                this.leftKnee.x - this.leftHip.x
             ) - Math.atan2(
-                this.leftShoulder.position.y - this.leftHip.position.y,
-                this.leftShoulder.position.x - this.leftHip.position.x
+                this.leftShoulder.y - this.leftHip.y,
+                this.leftShoulder.x - this.leftHip.x
             )
         ) * (180 / Math.PI);
-
         angle = angle % 180;
+
         if (this.leftKnee.score > 0.3 && this.leftHip.score > 0.3 && this.leftShoulder.score > 0.3) {
             this.backAngle = angle;
         }
@@ -84,6 +84,7 @@ class pushup {
 
     inUpPosition() {
         if (this.elbowAngle > 170 && this.elbowAngle < 200) {
+            console.log('Elbow angle does crap');
             if (this.downPosition) {
                 // Optionally include a message without speech synthesis
                 console.log(`${this.pushupCount + 1} push-up(s) completed`);
@@ -96,20 +97,17 @@ class pushup {
 
     inDownPosition() {
         let elbowAboveNose = false;
-        if (this.nose.position.y > this.leftElbow.position.y) {
+        if (this.nose.y > this.leftElbow.y) {
             elbowAboveNose = true;
         }
         console.log(elbowAboveNose);
-        if (elbowAboveNose && ((Math.abs(this.elbowAngle) > 70) && (Math.abs(this.elbowAngle) < 100))) {
-          
-            if (this.upPosition) {
-                // Optionally include a message without speech synthesis
-                console.log('Up');
-            }
+        if (elbowAboveNose && Math.abs(this.elbowAngle % 180) > 70 && Math.abs(this.elbowAngle % 180) < 100) {
+            
+            console.log(this.elbowAngle);
             this.downPosition = true;
             this.upPosition = false;
         }
-       // console.log(elbowAboveNose);
+     
     }
 
     setPushupStatus() {
@@ -117,10 +115,7 @@ class pushup {
         this.updateBackAngle();
         this.inUpPosition();
         this.inDownPosition();
-
-     console.log(this.elbowAngle);
-        //console.log('Up Position:', this.upPosition);
-       // console.log('Down Position:', this.downPosition);
+    
    
         document.getElementById("pushupCount").innerText = this.pushupCount;
     }
