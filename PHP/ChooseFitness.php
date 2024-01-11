@@ -8,6 +8,7 @@ echo "
     <canvas id='canvas' width='640' height='480'></canvas>
     <p>Pull-up Count: <span id='pullupCount'>0</span></p>
      <p>Push-up Count: <span id='pushupCount'>0</span></p>
+       <p>Sit-up Count: <span id='situpCount'>0</span></p>
 ";
 
 

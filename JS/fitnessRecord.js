@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', (event) => {
   let pullups = new pullup();
   let pushups = new pushup();
+  let situps = new situp();
   const videoElement = document.getElementById('video');
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
@@ -80,6 +81,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     pullups.setPullUpStatus();
     pushups.feedData(keypoints);
     pushups.setPushupStatus();
+   situps.feedData(keypoints);
+   situps.setSitupStatus();
+   
    }
 
   startPoseDetection().catch((error) => {

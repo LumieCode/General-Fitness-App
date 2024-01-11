@@ -5,6 +5,8 @@ class pullup{
         this.noseY;
         this.rightElbowY;
         this.leftElbowY;
+        this.leftHipY;
+        this.leftKneeY;
         this.rightElbowYBounds = false;
         this.leftElbowYBounds;
         this.initialPosition = false;
@@ -23,6 +25,8 @@ class pullup{
         this.noseY = Math.floor(keypoints[0].y);
         this.rightElbowY = Math.floor(keypoints[7].y);
         this.leftElbowY = Math.floor(keypoints[8].y);
+        this.leftHipY = Math.floor(keypoints[11].y);
+        this.leftKneeY = Math.floor(keypoints[13].y);
     
         // Use this.rightWristY and this.leftWristY instead of rightWrist and leftWrist
         this.rightWristMax = this.rightWristY + 20;
@@ -32,7 +36,7 @@ class pullup{
     }
     
 
-        setInitialPosition(){if (this.noseY > this.leftWristY && this.noseY > this.rightWristY) {
+        setInitialPosition(){if (this.noseY < this.leftWristY && this.noseY < this.rightWristY && this.leftHipY < this.leftKneeY) {
         this.initialRightWristY = this.rightWristY;
         this.initialLeftWristY = this.leftWristY;
         this.initialPosition = true;
@@ -54,7 +58,7 @@ class pullup{
     }
     
         
-      setLandingPosition(){if (this.noseY < this.leftElbowY && this.noseY < this.rightElbowY && this.noseY < this.rightWristY && this.noseY < this.leftWristY) {
+      setLandingPosition(){if (this.noseY > this.leftElbowY && this.noseY > this.rightElbowY && this.noseY > this.rightWristY && this.noseY > this.leftWristY) {
         this.landingPosition = true;
       } else {
         this.landingPosition = false;

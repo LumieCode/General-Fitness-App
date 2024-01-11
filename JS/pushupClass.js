@@ -100,10 +100,10 @@ class pushup {
         if (this.nose.y > this.leftElbow.y) {
             elbowAboveNose = true;
         }
-        console.log(elbowAboveNose);
+        
         if (elbowAboveNose && Math.abs(this.elbowAngle % 180) > 70 && Math.abs(this.elbowAngle % 180) < 100) {
             
-            console.log(this.elbowAngle);
+          
             this.downPosition = true;
             this.upPosition = false;
         }
