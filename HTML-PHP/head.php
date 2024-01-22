@@ -11,7 +11,8 @@ echo "
     <script src='../JS/jquery.js'></script>
     <script src='../JS/pullupClass.js' onload module></script>
     <script src='../JS/pushupClass.js' onload module></script>
-    <script src='../JS/situpClass.js' onload module></script>
+    <script src='../JS/situpclass.js' onload module></script>
+    <script src='../JS/squatclass.js' onload module></script>
 
     <link rel='icon' type='image/x-icon' href='../images/favicon.ico'>
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css' />

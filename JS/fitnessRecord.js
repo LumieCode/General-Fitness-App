@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   let pullups = new pullup();
   let pushups = new pushup();
   let situps = new situp();
+  let squats = new squat();
   const videoElement = document.getElementById('video');
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
@@ -83,6 +84,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     pushups.setPushupStatus();
    situps.feedData(keypoints);
    situps.setSitupStatus();
+   squats.feedData(keypoints);
+   squats.setSquatStatus();
    
    }
 
